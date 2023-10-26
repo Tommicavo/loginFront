@@ -67,7 +67,7 @@ export default {
           this.messages.password = res.data.message;
           console.log('message: ', this.messages.password);
         } else if (status == 'loginOk'){
-          this.$router.push({ name: 'userPage', params: {id: res.data.id}});
+          this.$router.push({ name: 'userPage', params: {slug: res.data.slug}});
         }
       })
       .catch(err => {console.error(err)})

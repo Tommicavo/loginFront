@@ -65,7 +65,7 @@ export default {
                 }
             } else if (status == 'signinOk'){
                 console.log('Non ci sono errori');
-                this.$router.push({ name: 'userPage', params: {id: res.data.id}});
+                this.$router.push({ name: 'userPage', params: {slug: res.data.slug}});
             }
         })
         .catch(err => {console.error(err)})
