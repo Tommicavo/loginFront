@@ -16,9 +16,19 @@ export default {
 
 <template>
   <AppHeader/>
-  <router-view></router-view>
+  <main>
+    <div class="container py-5">  
+      <router-view></router-view>
+    </div>
+  </main>
 </template>
 
 <style lang="scss">
-@use './assets/scss/style.scss';
+@use './assets/scss/style.scss' as *;
+@use '@/assets/scss/partials/vars' as *;
+
+main{
+  height: calc(100vh - $headerHeight);
+  background-color: #aaaaaa;
+}
 </style>

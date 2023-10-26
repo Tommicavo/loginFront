@@ -17,10 +17,12 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // FontAwesome Components
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+
 
 // Including fontawesome icon
-library.add(faXmark);
-
+library.add(faXmark, faHouse, faUser);
 
 // App
 const app = createApp(App);

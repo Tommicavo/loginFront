@@ -1,3 +1,18 @@
+@use './partials/vars' as *;
+
 * {
     font-family: 'Montserrat', sans-serif;
 }
+
+.btn.btn-primary{
+    background-color: #2c313c;
+    border-color: #2c313c;
+}
+
+.btn.btn-primary:hover{
+    background-color: #2c313c;
+    border-color: #2c313c;
+    color: gold;
+}
+
+
