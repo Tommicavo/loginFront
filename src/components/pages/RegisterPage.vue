@@ -1,10 +1,13 @@
 <script>
 import axios from 'axios';
 
+import { store } from '@/assets/data/store.js';
+
 export default {
   name: 'RegisterPage',
   data() {
     return {
+        store,
         form: {name: '', email: '', password: '', password_confirmation: ''},
         errors: {name: [], email: [], password: [], password_confirmation: []},
         isPristine: true,
@@ -64,8 +67,9 @@ export default {
                     }
                 }
             } else if (status == 'signinOk'){
-                console.log('Non ci sono errori');
-                this.$router.push({ name: 'userPage', params: {slug: res.data.slug}});
+                store.isLoggedIn = true;
+                store.accountId = res.data.accountData.id;
+                this.$router.push({ name: 'userPage', params: {slug: res.data.accountData.slug}});
             }
         })
         .catch(err => {console.error(err)})
@@ -125,7 +129,7 @@ export default {
                 <!-- Conferma Password -->
                 <div class="row">
                     <div class="col-3 offset-1">
-                        <label for="confirmPassword" class="form-label">Conferma Password</label>
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
                     </div>
                     <div class="col-6">
                         <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password"
@@ -143,7 +147,7 @@ export default {
                 </div>
                 
                 <div class="d-flex justify-content-center align-items-center gap-3">
-                    <div>You already have an account?</div>
+                    <div class="haveAccount">Already have an account?</div>
                     <router-link :to="{name: 'loginPage'}" class="btn btn-primary">Login</router-link>
                 </div>
 
@@ -156,7 +160,7 @@ export default {
 <style lang="scss" scoped>
 .formCard{
     border-radius: 1.6rem;
-    box-shadow: 4px 4px 8px gray;
+    box-shadow: 4px 4px 4px gray;
     border: 0;
 }
 
@@ -166,4 +170,6 @@ export default {
     color: red;
     padding-left: 1.2rem;
 }
+
+
 </style>

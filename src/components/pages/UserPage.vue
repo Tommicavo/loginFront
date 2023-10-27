@@ -1,11 +1,12 @@
 <script>
 import axios from 'axios';
-
+import { store } from '@/assets/data/store.js';
 
 export default {
   name: 'UserPage',
   data() {
     return {
+      store,
       name: ''
     }
   },
@@ -17,10 +18,16 @@ export default {
       const baseUri = 'http://127.0.0.1:8000/api/account/';
       const endpoint = `${baseUri}${this.$route.params.slug}`;
 
-      axios.get(endpoint)
+      axios.post(endpoint, {id: store.accountId})
       .then(res => {
-        console.log(res.data);
-        this.name = res.data.name;
+        const status = res.data.status;
+        if (status == 'denied'){
+          store.isLoggedIn = false;
+          store.accountId = -1;
+          this.$router.push({name: 'notFoundPage'});
+        } else if (status == 'ok'){
+          this.name = res.data.name;
+        }
       })
       .catch(err => console.error(err))
     }

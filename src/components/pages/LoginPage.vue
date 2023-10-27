@@ -1,10 +1,13 @@
 <script>
 import axios from 'axios';
 
+import { store } from '@/assets/data/store.js';
+
 export default {
   name: 'LoginPage',
   data() {
     return {
+      store,
       form: {email: '', password: ''},
       errors: {email: [], password: []},
       messages: {email: null, password: null},
@@ -51,7 +54,7 @@ export default {
 
       axios.post(endpoint, data)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         const status = res.data.status;
         if (status == 'validationError'){
           const errors = res.data.errors;
@@ -67,7 +70,9 @@ export default {
           this.messages.password = res.data.message;
           console.log('message: ', this.messages.password);
         } else if (status == 'loginOk'){
-          this.$router.push({ name: 'userPage', params: {slug: res.data.slug}});
+          store.isLoggedIn = true;
+          store.accountId = res.data.accountData.id;
+          this.$router.push({ name: 'userPage', params: {slug: res.data.accountData.slug}});
         }
       })
       .catch(err => {console.error(err)})
@@ -78,55 +83,54 @@ export default {
 </script>
 
 <template>
-<div class="registerPage">
+  <div class="registerPage">
     <div class="card formCard pt-3">
-        <div class="card-body">
-            <form method="POST" @submit.prevent="sendForm" novalidate>  
-
-                <!-- Email -->
-                <div class="row">
-                    <div class="col-3 offset-1">
-                        <label for="email" class="form-label">Email</label>
-                    </div>
-                    <div class="col-6">
-                        <input type="email" class="form-control" id="email" placeholder="Your email here"
-                        :class="emailIsValid" v-model="form.email">
-                    </div>
-                </div>
-                <div class="row errorMessages mb-3">
-                    <div class="col-6 offset-4" v-for="error in errors.email">{{ error }}</div>
-                    <div class="col-6 offset-4">{{ messages.email }}</div>
-                </div>
-        
-                <!-- Password -->
-                <div class="row">
-                    <div class="col-3 offset-1">
-                        <label for="password" class="form-label">Password</label>
-                    </div>
-                    <div class="col-6">
-                        <input type="password" class="form-control" id="password" placeholder="Choose a password"
-                        :class="passwordIsValid" v-model="form.password">
-                    </div>
-                </div>
-                <div class="row errorMessages mb-3">
-                    <div class="col-6 offset-4" v-for="error in errors.password">{{ error }}</div>
-                    <div class="col-6 offset-4">{{ messages.password }}</div>
-                </div>
-                
-                <div class="row mb-3">
-                    <div class="col-1 offset-4">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </div>
-                </div>
-                
-                <div class="d-flex justify-content-center align-items-center gap-3">
-                    <div>Don't have an account yet?</div>
-                    <router-link :to="{name: 'registerPage'}" class="btn btn-primary">Sign in</router-link>
-                </div>
-            </form>
-        </div>
+      <div class="card-body">
+        <form method="POST" @submit.prevent="sendForm" novalidate>  
+          <!-- Email -->
+          <div class="row">
+            <div class="col-3 offset-1">
+              <label for="email" class="form-label">Email</label>
+            </div>
+            <div class="col-6">
+              <input type="email" class="form-control" id="email" placeholder="Your email here"
+              :class="emailIsValid" v-model="form.email">
+            </div>
+          </div>
+          <div class="row errorMessages mb-3">
+            <div class="col-6 offset-4" v-for="error in errors.email">{{ error }}</div>
+            <div class="col-6 offset-4">{{ messages.email }}</div>
+          </div>
+  
+          <!-- Password -->
+          <div class="row">
+            <div class="col-3 offset-1">
+              <label for="password" class="form-label">Password</label>
+            </div>
+            <div class="col-6">
+              <input type="password" class="form-control" id="password" placeholder="Choose a password"
+              :class="passwordIsValid" v-model="form.password">
+            </div>
+          </div>
+          <div class="row errorMessages mb-3">
+            <div class="col-6 offset-4" v-for="error in errors.password">{{ error }}</div>
+            <div class="col-6 offset-4">{{ messages.password }}</div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-1 offset-4">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </div>
+          
+          <div class="d-flex justify-content-center align-items-center gap-3">
+            <div class="haveAccount">Don't have an account yet?</div>
+            <router-link :to="{name: 'registerPage'}" class="btn btn-primary">Sign in</router-link>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <style lang="scss" scoped>

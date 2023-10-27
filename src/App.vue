@@ -29,6 +29,7 @@ export default {
 
 main{
   height: calc(100vh - $headerHeight);
-  background-color: #aaaaaa;
+  background-color: #414a4c;
+  color: white;
 }
 </style>
