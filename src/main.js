@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 // Generics Components
-// ...
+import AppLoader from '@/components/AppLoader.vue';
 
 // FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -28,4 +28,5 @@ library.add(faXmark, faHouse, faUser);
 const app = createApp(App);
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);
+app.component('AppLoader', AppLoader);
 app.mount('#app');

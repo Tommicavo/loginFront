@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 import { store } from '@/assets/data/store.js';
+import AppLoader from '../AppLoader.vue';
 
 export default {
   name: 'LoginPage',
@@ -15,7 +16,7 @@ export default {
       formSended: false
     }
   },
-  components: {},
+  components: { AppLoader },
   props: {},
   computed: {
     emailIsValid(){
@@ -45,6 +46,7 @@ export default {
     sendForm(){
       const endpoint = 'http://127.0.0.1:8000/api/login';
       const data = this.form;
+      store.isLoading = true;
       
       // Init data
       this.formSended = false;
@@ -76,14 +78,18 @@ export default {
         }
       })
       .catch(err => {console.error(err)})
-      .then(() => {this.formSended = true})
+      .then(() => {
+        this.formSended = true;
+        store.isLoading = false;
+      })
     }
   }
 }
 </script>
 
 <template>
-  <div class="registerPage">
+  <AppLoader v-if="store.isLoading"/>
+  <div class="registerPage" v-else>
     <div class="card formCard pt-3">
       <div class="card-body">
         <form method="POST" @submit.prevent="sendForm" novalidate>  
